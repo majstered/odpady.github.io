@@ -1,1 +1,74 @@
-# odpady.github.io
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Informator – Siedliszcze</title>
+    <style>
+        body {
+            background-color: #fef4d1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            font-size: 28px;
+            animation: move 4s infinite alternate;
+        }
+        @keyframes move {
+            0% { letter-spacing: 1px; }
+            100% { letter-spacing: 5px; }
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        .section {
+            margin: 30px 10px;
+            font-size: 20px;
+        }
+        .oplaty {
+            text-align: left;
+            display: inline-block;
+            background: #fffbe6;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 90%;
+            height: auto;
+            border: 2px solid #444;
+        }
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <header>🗑️ Info dla mieszkańców Siedliszcza</header>
+    <h2>📱 Mobilna przypominajka o odbiorze odpadów i terminach opłat kwartalnych</h2>
+    <img src="Harmonogram.jpg" alt="Harmonogram odpadów 2025">
+    <div class="section">
+        <div class="oplaty">
+            <p>⭐ do 15 marca – opłata I kwartał (podatek + odpady)</p>
+            <p>💧 do 15 kwietnia – opłata I kwartał (woda + ścieki)</p>
+            <p>⭐ do 15 maja – opłata II kwartał (podatek + odpady)</p>
+            <p>💧 do 15 lipca – opłata II kwartał (woda + ścieki)</p>
+            <p>⭐ do 15 września – opłata III kwartał (podatek + odpady)</p>
+            <p>💧 do 15 października – opłata III kwartał (woda + ścieki)</p>
+            <p>⭐ do 15 listopada – opłata IV kwartał (podatek + odpady)</p>
+            <p>💧 do 20 grudnia – opłata IV kwartał (woda + ścieki)</p>
+        </div>
+        <p style="font-size: 18px; margin-top: 20px;">📎 Zeskanuj kod QR i przekaż sąsiadowi dobrą nowinę:</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://majstered.github.io/odpady.github.io/" alt="Kod QR do strony">
+    </div>
+    <footer>Ramzi i mgiełka 🌫️</footer>
+</body>
+</html>
