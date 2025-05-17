@@ -9,106 +9,118 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
+
         header {
             background-color: black;
             color: white;
             padding: 20px;
             font-size: 28px;
             animation: move 4s infinite alternate;
+            width: 100%;
         }
+
         @keyframes move {
             0% { letter-spacing: 1px; }
             100% { letter-spacing: 5px; }
         }
+
         .info-box {
             background-color: #f3e7a2;
             padding: 15px;
             margin-top: 20px;
             font-size: 20px;
-            display: inline-block;
             border-radius: 10px;
+            display: inline-block;
         }
+
         img {
             margin-top: 20px;
             max-width: 90%;
             height: auto;
             border: 2px solid #444;
         }
+
         .section {
             margin: 30px 10px;
             font-size: 20px;
         }
+
         .oplaty {
             text-align: left;
-            display: inline-block;
             background: #fffbe6;
             padding: 20px;
             border-radius: 10px;
             font-size: 18px;
             margin-bottom: 30px;
+            display: inline-block;
         }
+
         .tabela-naglowek {
             background-color: #eee59f;
             padding: 10px 20px;
             margin: 40px 0 10px 0;
-            display: inline-block;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 22px;
+            display: inline-block;
             max-width: 380px;
         }
+
         footer {
-            margin-top: 40px;
+            background-color: #2c2c2c;
+            color: #ffffff;
             padding: 20px;
-            color: gray;
+            font-size: 16px;
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <header>🗑️ Info dla mieszkańców Siedliszcza</header>
+    <div class="main">
+        <header>🗑️ Info dla mieszkańców Siedliszcza</header>
 
-    <div class="info-box">
-        📱 Mobilna przypominajka o odbiorze odpadów i terminach opłat kwartalnych
+        <div class="info-box">
+            📱 Mobilna przypominajka o odbiorze odpadów i terminach opłat kwartalnych
+        </div>
+
+        <img src="Harmonogram.jpg" alt="Harmonogram odpadów 2025">
+
+        <div class="section">
+            <div class="tabela-naglowek">📅 Tabela kwartalnych opłat</div>
+
+            <div class="oplaty">
+                <p>⭐ do 15 marca – I kwartał (podatek+odpady)</p>
+                <p>💧 do 15 kwietnia – I kwartał (woda+ścieki)</p>
+                <p>⭐ do 15 maja – II kwartał (podatek+odpady)</p>
+                <p>💧 do 15 lipca – II kwartał (woda+ścieki)</p>
+                <p>⭐ do 15 września – III kwartał (podatek+odpady)</p>
+                <p>💧 do 15 października – III kwartał (woda+ścieki)</p>
+                <p>⭐ do 15 listopada –  IV kwartał (podatek+odpady)</p>
+                <p>💧 do 20 grudnia – IV kwartał (woda+ścieki)</p>
+            </div>
+
+            <p style="font-size: 18px; margin-top: 30px;">
+                📅 Zeskanuj kod QR lub przekaż go sąsiadowi – niech też pamięta! 📆<br>
+                🧷 Wydrukuj kod, przypnij na lodówkę, pojemniki od śmieci lub drzwi garażu...<br>
+                👐 Miej to zawsze pod ręką.
+            </p>
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://majstered.github.io/odpady.github.io/" alt="Kod QR do strony">
+        </div>
+
+        <footer>
+            🌫️ info.odpady 🌫️
+        </footer>
     </div>
-
-    <img src="Harmonogram.jpg" alt="Harmonogram odpadów 2025">
-
-<div class="section">
-<h2 style="
-    background-color: #eee59f;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 22px;
-    display: table;
-    margin: 0 auto 20px auto;
-    max-width: 380px;">
-    📅 Tabela kwartalnych opłat
-</h2>
-
-    <div class="oplaty">
-        <p>⭐ do 15 marca – I kwartał (podatek+odpady)</p>
-        <p>💧 do 15 kwietnia – I kwartał (woda+ścieki)</p>
-        <p>⭐ do 15 maja – II kwartał (podatek+odpady)</p>
-        <p>💧 do 15 lipca – II kwartał (woda+ścieki)</p>
-        <p>⭐ do 15 września – III kwartał (podatek+odpady)</p>
-        <p>💧 do 15 października – III kwartał (woda+ścieki)</p>
-        <p>⭐ do 15 listopada –  IV kwartał (podatek+odpady)</p>
-        <p>💧 do 20 grudnia – IV kwartał (woda+ścieki)</p>
-    </div>
-
-<p style="font-size: 18px; margin-top: 30px;">
-    📅 Zeskanuj kod QR lub przekaż go sąsiadowi – niech też pamięta! 📆<br>
-    🧷 Wydrukuj kod, przypnij na lodówkę, pojemniki od śmieci lub drzwi garażu...<br>
-    👐 Miej to zawsze pod ręką.
-</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://majstered.github.io/odpady.github.io/" alt="Kod QR do strony">
-</div>
-<footer style="background-color: #2c2c2c; color: #ffffff; padding: 20px; font-size: 16px;">
-   🌫️ info.odpady 🌫️
-</footer>
 </body>
 </html>
-
