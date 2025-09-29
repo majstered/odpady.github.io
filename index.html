@@ -1,126 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Informator – Siedliszcze</title>
-    <style>
-        body {
-            background-color: #fef4d1;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nowenna do Maryi Rozwiązującej Węzły</title>
+  <link rel="icon" type="image/png" href="aplikacje.png">
+  <style>
+    /* Zmiennie i bazowe style (jak u Ciebie) */
+    :root{
+      --bg:#fbfaf7; --card:#ffffff; --ink:#1f2430; --muted:#667085;
+      --blue:#0a4fa3; --border:#e6e6ea; --radius:16px;
+      --shadow:0 8px 28px rgba(0,0,0,.08); --accent:#1f5fbf;
+    }
+    .dark{
+      --bg:#10131a; --card:#141824; --ink:#e7ecf6; --muted:#aab3c6;
+      --blue:#0b3d7a; --border:#263049; --shadow:0 8px 28px rgba(0,0,0,.45);
+      --accent:#7fb0ff;
+    }
+    html,body{height:100%}
+    body{ margin:0; font-family: ui-serif, Georgia, "Times New Roman", serif;
+          background:var(--bg); color:var(--ink); line-height:1.65; }
 
-        .main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:10; background:var(--card);
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px;
+    }
+    .topbar h1{ font-size:clamp(18px,2.6vw,28px); margin:0; letter-spacing:.2px; }
+    .mode-btn{
+      border:1px solid var(--border); background:transparent; color:var(--ink);
+      border-radius:999px; padding:8px 12px; cursor:pointer;
+    }
 
-        header {
-            background-color: black;
-            color: white;
-            padding: 20px;
-            font-size: 28px;
-            animation: move 4s infinite alternate;
-            width: 100%;
-        }
+    /* Wrapper */
+    .wrap{ max-width:1050px; margin:28px auto; padding:0 16px 56px; }
 
-        @keyframes move {
-            0% { letter-spacing: 1px; }
-            100% { letter-spacing: 5px; }
-        }
+    /* Karty i tytuły */
+    .card{
+      background:var(--card); border:1px solid var(--border);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:18px; margin:18px 0 28px;
+    }
+    .section-title{
+      font-size:clamp(18px,2.2vw,24px);
+      margin:0 0 14px; border-left:6px solid var(--accent); padding-left:10px;
+    }
 
-        .info-box {
-            background-color: #f3e7a2;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 20px;
-            border-radius: 10px;
-            display: inline-block;
-        }
+    /* Niebieskie pole na modlitwy/treści */
+    .list-box, .prayer-box{
+      background:var(--blue); color:#fff;
+      border-radius:calc(var(--radius) - 4px);
+      padding:clamp(14px,3vw,24px);
+      font-size:clamp(16px,2.1vw,20px);
+      line-height:1.75;
+    }
+    .list-box ul{ margin:0; padding-left:1.2rem; list-style:disc inside; }
+    .list-box li{ margin:.35rem 0; }
+    .poem{ white-space: pre-line; }
 
-        img {
-            margin-top: 20px;
-            max-width: 90%;
-            height: auto;
-            border: 2px solid #444;
-        }
+    /* Spis treści */
+    .toc{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0; }
+    .toc a{
+      display:inline-block; padding:8px 12px; background:var(--blue); color:#fff;
+      text-decoration:none; border-radius:10px; font-size:14px;
+    }
+    .toc a:hover{ opacity:.92; }
 
-        .section {
-            margin: 30px 10px;
-            font-size: 20px;
-        }
+    /* Pasek nawigacyjny (góra/dół) */
+    .nav-bar{ text-align:center; margin:30px 0; }
+    .nav-btn{
+      display:inline-block; margin:8px; padding:10px 20px;
+      background:var(--blue, #0a4fa3); color:#fff; font-size:16px;
+      border-radius:12px; text-decoration:none;
+      box-shadow:0 4px 12px rgba(0,0,0,.15); transition:background .3s, transform .2s;
+    }
+    .nav-btn:hover{ background:#083d80; transform:translateY(-2px); }
 
-        .oplaty {
-            text-align: left;
-            background: #fffbe6;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 18px;
-            margin-bottom: 30px;
-            display: inline-block;
-        }
-
-        .tabela-naglowek {
-            background-color: #eee59f;
-            padding: 10px 20px;
-            margin: 40px 0 10px 0;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 22px;
-            display: inline-block;
-            max-width: 380px;
-        }
-
-        footer {
-            background-color: #2c2c2c;
-            color: #ffffff;
-            padding: 20px;
-            font-size: 16px;
-            width: 100%;
-            text-align: center;
-            margin-top: 40px;
-        }
-    </style>
+    /* Detale „pokaż/ukryj” do ewentualnych rozważań */
+    details{ margin-top:10px; }
+    summary{ cursor:pointer; }
+  </style>
 </head>
 <body>
-    <div class="main">
-        <header>🗑️ Info dla mieszkańców Siedliszcza</header>
+  <header class="topbar">
+    <h1>Nowenna do Maryi Rozwiązującej Węzły</h1>
+    <button class="mode-btn" id="modeBtn" aria-label="Przełącz tryb">🌓 Dzień / Noc</button>
+  </header>
 
-        <div class="info-box">
-            📱 Mobilna przypominajka o odbiorze odpadów i terminach opłat kwartalnych
+  <!-- Pasek nawigacyjny (góra) -->
+  <nav class="nav-bar">
+    <a href="index.html" class="nav-btn">🏠 Strona główna</a>
+    <a href="rozaniec.html" class="nav-btn">📿 Różaniec</a>
+    <a href="modlitwy-maryjne.html" class="nav-btn">🙏 Modlitwy Maryjne</a>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- Spis treści -->
+    <section class="card">
+      <h2 class="section-title">Spis treści</h2>
+      <div class="toc">
+        <a href="#jak-odmawiac">Jak odmawiać (schemat)</a>
+        <a href="#tajemnice-dni">Tajemnice różańca wg dni tygodnia</a>
+        <a href="#dzien-1">Dzień 1</a>
+        <a href="#dzien-2">Dzień 2</a>
+        <a href="#dzien-3">Dzień 3</a>
+        <a href="#dzien-4">Dzień 4</a>
+        <a href="#dzien-5">Dzień 5</a>
+        <a href="#dzien-6">Dzień 6</a>
+        <a href="#dzien-7">Dzień 7</a>
+        <a href="#dzien-8">Dzień 8</a>
+        <a href="#dzien-9">Dzień 9</a>
+        <a href="#modlitwa-stala">Modlitwa końcowa (stała)</a>
+      </div>
+    </section>
+
+    <!-- Jak odmawiać (schemat) -->
+    <section class="card" id="jak-odmawiac">
+      <h2 class="section-title">Jak odmawiać nowennę (schemat na każdy dzień)</h2>
+      <div class="list-box">
+        <ol>
+          <li>Znak krzyża.</li>
+          <li>Akt żalu (skruchy).</li>
+          <li>Trzy pierwsze dziesiątki różańca (tajemnice z dnia tygodnia — patrz niżej).</li>
+          <li>Rozważanie/Modlitwa dnia + nazwanie „węzła” (intencji).</li>
+          <li>Dwie ostatnie dziesiątki różańca (ta sama część co wyżej).</li>
+          <li>„Modlitwa do Maryi Rozwiązującej Węzły” (tekst stały — poniżej).</li>
+          <li>Znak krzyża.</li>
+        </ol>
+        <p style="opacity:.9;margin-top:10px">To jest klasyczny układ praktykowany w wielu parafiach i modlitewnikach (patrz: Stacja7 – dni nowenny). Tajemnice dobiera się wg dnia tygodnia (poniżej ściąga).</p>
+      </div>
+    </section>
+
+    <!-- Tajemnice wg dni tygodnia -->
+    <section class="card" id="tajemnice-dni">
+      <h2 class="section-title">Tajemnice różańca wg dni tygodnia</h2>
+      <div class="list-box">
+        <ul>
+          <li><strong>Poniedziałek:</strong> radosne</li>
+          <li><strong>Wtorek:</strong> bolesne</li>
+          <li><strong>Środa:</strong> chwalebne</li>
+          <li><strong>Czwartek:</strong> światła</li>
+          <li><strong>Piątek:</strong> bolesne</li>
+          <li><strong>Sobota:</strong> radosne</li>
+          <li><strong>Niedziela:</strong> chwalebne</li>
+        </ul>
+        <p style="opacity:.9">Taką praktykę podają przewodniki nowenny (np. Aleteia – „tekst i sposób odmawiania”).</p>
+      </div>
+    </section>
+
+    <!-- SZABLON DNIA: zostawiłem miejsce na Twoją ulubioną wersję rozważań -->
+    <section class="card" id="dzien-1">
+      <h2 class="section-title">Dzień 1</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca (tajemnice z dnia).
+
+<em>Rozważanie dnia – wpisz/ wklej używaną przez Ciebie wersję:</em>
+[tu treść rozważania – np. powierzenie węzła samotności i ufność w wstawiennictwo Maryi]
+
+Dwie ostatnie dziesiątki różańca (ta sama część).
+Na końcu: „Modlitwa do Maryi Rozwiązującej Węzły” (patrz niżej).
+      </div>
+      <details><summary>Pokaż szkic merytoryczny (pomoc)</summary>
+        <div class="poem" style="margin-top:8px">
+• Intencja/węzeł: nazwij go konkretnie (np. „samotność”, „relacja X”, „lęk Y”).
+• Akt zawierzenia: zaufanie Maryi („wierzę, że możesz rozwiązać ten węzeł…”).
+• Dziękczynienie: „Dziękuję Ci, Matko Ukochana…”.
         </div>
+      </details>
+    </section>
 
-        <img src="Harmonogram.jpg" alt="Harmonogram odpadów 2025">
+    <section class="card" id="dzien-2">
+      <h2 class="section-title">Dzień 2</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
 
-        <div class="section">
-            <div class="tabela-naglowek">📅 Tabela kwartalnych opłat</div>
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[czystość serca, pokora, ufność; ofiarowanie praktyk dnia jako dowód miłości]
 
-            <div class="oplaty">
-                <p>⭐ do 15 marca – I kwartał (podatek+odpady)</p>
-                <p>💧 do 15 kwietnia – I kwartał (woda+ścieki)</p>
-                <p>⭐ do 15 maja – II kwartał (podatek+odpady)</p>
-                <p>💧 do 15 lipca – II kwartał (woda+ścieki)</p>
-                <p>⭐ do 15 września – III kwartał (podatek+odpady)</p>
-                <p>💧 do 15 października – III kwartał (woda+ścieki)</p>
-                <p>⭐ do 15 listopada –  IV kwartał (podatek+odpady)</p>
-                <p>💧 do 20 grudnia – IV kwartał (woda+ścieki)</p>
-            </div>
+Dwie ostatnie dziesiątki różańca.
+Na końcu: Modlitwa stała.
+      </div>
+    </section>
 
-            <p style="font-size: 18px; margin-top: 30px;">
-                📅 Zeskanuj kod QR lub przekaż go sąsiadowi – niech też pamięta! 📆<br>
-                🧷 Wydrukuj kod, przypnij na lodówkę, pojemniki od śmieci lub drzwi garażu...<br>
-                👐 Miej to zawsze pod ręką.
-            </p>
+    <section class="card" id="dzien-3">
+      <h2 class="section-title">Dzień 3</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
 
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://majstered.github.io/odpady.github.io/" alt="Kod QR do strony">
-        </div>
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[przebaczenie osobom związanym z „węzłem”; prośba o uzdrowienie uraz]
 
-        <footer>
-            🌫️ info.odpady 🌫️
-        </footer>
-    </div>
+Dwie ostatnie dziesiątki; potem Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-4">
+      <h2 class="section-title">Dzień 4</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[cierpliwość w próbach, wzrastanie przez trud, dziękczynienie w każdej chwili]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-5">
+      <h2 class="section-title">Dzień 5</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[łagodność i dobroć; prośba o mądrość i światło Ducha Świętego]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-6">
+      <h2 class="section-title">Dzień 6</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[wytrwałość, sakramenty (spowiedź, Komunia), przygotowanie serca na łaskę]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-7">
+      <h2 class="section-title">Dzień 7</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[wyrzeczenie się złego; wyznanie: „Jezus moim Zbawcą i Panem”; prośba o uwolnienie]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-8">
+      <h2 class="section-title">Dzień 8</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[nawiedzenie jak u Elżbiety; Duch Święty; cnoty: męstwo, radość, pokora, wiara]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <section class="card" id="dzien-9">
+      <h2 class="section-title">Dzień 9</h2>
+      <div class="prayer-box poem">
+Trzy pierwsze dziesiątki różańca.
+
+<em>Rozważanie dnia – wpisz/ wklej:</em>
+[dziękczynienie za rozwiązanie węzła; prośba o pokój, światło i opiekę]
+
+Dwie ostatnie dziesiątki; Modlitwa stała.
+      </div>
+    </section>
+
+    <!-- MODLITWA KOŃCOWA (stała) – jedna, do użycia każdego dnia -->
+    <section class="card" id="modlitwa-stala">
+      <h2 class="section-title">Modlitwa do Maryi Rozwiązującej Węzły (tekst stały)</h2>
+      <div class="prayer-box poem">
+Dziewico Maryjo, Matko Pięknej Miłości, Matko, która nigdy nie opuszczasz dziecka wołającego o pomoc,
+której ręce nieustannie pracują dla dobra Twoich umiłowanych dzieci, a serce przepełniają Boża miłość
+i nieskończone miłosierdzie — zwróć ku mnie swoje spojrzenie pełne współczucia.
+Ty wiesz, jak bardzo brak mi nadziei i jak cierpię, i wiesz, jak te węzły mnie paraliżują.
+
+Maryjo, Matko, której Bóg powierzył rozwiązywanie zawiłości serc Jego dzieci —
+w Twoje ręce składam wstęgę mojego życia. Nikt, nawet zły, nie może pozbawić Cię możliwości
+udzielenia mi miłosiernej pomocy. Nie ma takich węzłów, których Ty nie mogłabyś rozwiązać.
+
+Matko Wszechmocna, proszę — weź dziś ten węzeł (tu nazwij intencję)
+i dla chwały Boga, dzięki Twojej łasce oraz mocy wstawiennictwa u Twojego Syna, Jezusa, mojego Wyzwoliciela,
+rozwiąż go i rozwiąż na zawsze. Jesteś daną mi przez Boga Pocieszycielką i Najpewniejszą Ostoją.
+Przyjmij moje wołanie. Chroń mnie, prowadź i strzeż. Amen.
+
+Maryjo Rozwiązująca Węzły — módl się za mną.
+      </div>
+      <p class="note" style="margin-top:8px">Uwaga: istnieją drobne warianty przekładu tej modlitwy w polskich modlitewnikach; powyżej zostawiłem wersję powszechnie używaną.</p>
+    </section>
+
+  </main>
+
+  <!-- Pasek nawigacyjny (dół) -->
+  <nav class="nav-bar">
+    <a href="index.html" class="nav-btn">🏠 Strona główna</a>
+    <a href="rozaniec.html" class="nav-btn">📿 Różaniec</a>
+    <a href="modlitwy-maryjne.html" class="nav-btn">🙏 Modlitwy Maryjne</a>
+  </nav>
+
+  <script>
+    // Tryb Dzień/Noc z pamięcią
+    (function(){
+      const key = 'theme-preference';
+      const btn = document.getElementById('modeBtn');
+      function applyTheme(v){ document.documentElement.classList.toggle('dark', v==='dark'); }
+      function current(){ return document.documentElement.classList.contains('dark') ? 'dark' : 'light'; }
+      const saved = localStorage.getItem(key);
+      if(saved){ applyTheme(saved); }
+      else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){ applyTheme('dark'); }
+      btn.addEventListener('click', ()=>{
+        const next = current()==='dark' ? 'light' : 'dark';
+        applyTheme(next); localStorage.setItem(key, next);
+      });
+    })();
+  </script>
 </body>
 </html>
