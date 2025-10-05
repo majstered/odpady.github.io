@@ -1,319 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nowenna do Maryi Rozwiązującej Węzły</title>
-  <link rel="icon" type="image/png" href="aplikacje.png">
+  <meta charset="UTF-8" />
+  <title>Księga komentarzy • Różańcowa</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
+
   <style>
-    /* Zmiennie i bazowe style (jak u Ciebie) */
-    :root{
-      --bg:#fbfaf7; --card:#ffffff; --ink:#1f2430; --muted:#667085;
-      --blue:#0a4fa3; --border:#e6e6ea; --radius:16px;
-      --shadow:0 8px 28px rgba(0,0,0,.08); --accent:#1f5fbf;
-    }
-    .dark{
-      --bg:#10131a; --card:#141824; --ink:#e7ecf6; --muted:#aab3c6;
-      --blue:#0b3d7a; --border:#263049; --shadow:0 8px 28px rgba(0,0,0,.45);
-      --accent:#7fb0ff;
-    }
-    html,body{height:100%}
-    body{ margin:0; font-family: ui-serif, Georgia, "Times New Roman", serif;
-          background:var(--bg); color:var(--ink); line-height:1.65; }
-
-    /* Topbar */
-    .topbar{
-      position:sticky; top:0; z-index:10; background:var(--card);
-      border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 18px;
-    }
-    .topbar h1{ font-size:clamp(18px,2.6vw,28px); margin:0; letter-spacing:.2px; }
-    .mode-btn{
-      border:1px solid var(--border); background:transparent; color:var(--ink);
-      border-radius:999px; padding:8px 12px; cursor:pointer;
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      max-width: 720px;
+      margin: auto;
     }
 
-    /* Wrapper */
-    .wrap{ max-width:1050px; margin:28px auto; padding:0 16px 56px; }
-
-    /* Karty i tytuły */
-    .card{
-      background:var(--card); border:1px solid var(--border);
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:18px; margin:18px 0 28px;
-    }
-    .section-title{
-      font-size:clamp(18px,2.2vw,24px);
-      margin:0 0 14px; border-left:6px solid var(--accent); padding-left:10px;
+    h1 {
+      text-align: center;
+      color: #1f4e79;
     }
 
-    /* Niebieskie pole na modlitwy/treści */
-    .list-box, .prayer-box{
-      background:var(--blue); color:#fff;
-      border-radius:calc(var(--radius) - 4px);
-      padding:clamp(14px,3vw,24px);
-      font-size:clamp(16px,2.1vw,20px);
-      line-height:1.75;
+    .sekcja-komentarzy {
+      border: 2px solid #4b6584;
+      border-radius: 10px;
+      background: #f0f6ff;
+      padding: 20px;
+      margin-top: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
-    .list-box ul{ margin:0; padding-left:1.2rem; list-style:disc inside; }
-    .list-box li{ margin:.35rem 0; }
-    .poem{ white-space: pre-line; }
 
-    /* Spis treści */
-    .toc{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0; }
-    .toc a{
-      display:inline-block; padding:8px 12px; background:var(--blue); color:#fff;
-      text-decoration:none; border-radius:10px; font-size:14px;
+    .sekcja-naglowek {
+      background: #4b6584;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 6px 6px 0 0;
+      margin: -20px -20px 20px -20px;
     }
-    .toc a:hover{ opacity:.92; }
 
-    /* Pasek nawigacyjny (góra/dół) */
-    .nav-bar{ text-align:center; margin:30px 0; }
-    .nav-btn{
-      display:inline-block; margin:8px; padding:10px 20px;
-      background:var(--blue, #0a4fa3); color:#fff; font-size:16px;
-      border-radius:12px; text-decoration:none;
-      box-shadow:0 4px 12px rgba(0,0,0,.15); transition:background .3s, transform .2s;
+    .komentarz {
+      background: #eaf0fb;
+      margin-bottom: 10px;
+      border-left: 5px solid #4b6584;
+      padding: 10px;
+      border-radius: 4px;
     }
-    .nav-btn:hover{ background:#083d80; transform:translateY(-2px); }
 
-    /* Detale „pokaż/ukryj” do ewentualnych rozważań */
-    details{ margin-top:10px; }
-    summary{ cursor:pointer; }
+    .naglowek {
+      font-weight: bold;
+      background: #4b6584;
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 15px;
+      background: #339cff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #1f78d1;
+    }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <h1>Nowenna do Maryi Rozwiązującej Węzły</h1>
-    <button class="mode-btn" id="modeBtn" aria-label="Przełącz tryb">🌓 Dzień / Noc</button>
-  </header>
 
-  <!-- Pasek nawigacyjny (góra) -->
-  <nav class="nav-bar">
-    <a href="https://majstered.github.io/siedliszcze.github.io/" class="nav-btn">🏠 Strona główna</a>
+  <h1>🌹 Księga komentarzy</h1>
 
-  </nav>
+  <!-- 🔽 SEKCJA Z KOMENTARZAMI -->
+  <div class="sekcja-komentarzy">
+    <div class="sekcja-naglowek">🗨️ Wasze komentarze:</div>
+    <div id="lista-komentarzy"></div>
 
-  <main class="wrap">
+    <label>Autor:
+      <input type="text" id="autor" placeholder="Twoje imię">
+    </label>
+    <label>Treść:
+      <textarea id="tresc" rows="3" placeholder="Napisz komentarz..."></textarea>
+    </label>
+    <button onclick="dodajKomentarz()">Dodaj komentarz</button>
+  </div>
 
-    <!-- Spis treści -->
-    <section class="card">
-      <h2 class="section-title">Spis treści</h2>
-      <div class="toc">
-        <a href="#jak-odmawiac">Jak odmawiać (schemat)</a>
-        <a href="#tajemnice-dni">Tajemnice różańca wg dni tygodnia</a>
-        <a href="#dzien-1">Dzień 1</a>
-        <a href="#dzien-2">Dzień 2</a>
-        <a href="#dzien-3">Dzień 3</a>
-        <a href="#dzien-4">Dzień 4</a>
-        <a href="#dzien-5">Dzień 5</a>
-        <a href="#dzien-6">Dzień 6</a>
-        <a href="#dzien-7">Dzień 7</a>
-        <a href="#dzien-8">Dzień 8</a>
-        <a href="#dzien-9">Dzień 9</a>
-        <a href="#modlitwa-stala">Modlitwa końcowa (stała)</a>
-      </div>
-    </section>
-
-    <!-- Jak odmawiać (schemat) -->
-    <section class="card" id="jak-odmawiac">
-      <h2 class="section-title">Jak odmawiać nowennę (schemat na każdy dzień)</h2>
-      <div class="list-box">
-        <ol>
-          <li>Znak krzyża.</li>
-          <li>Akt żalu (skruchy).</li>
-          <li>Trzy pierwsze dziesiątki różańca (tajemnice z dnia tygodnia — patrz niżej).</li>
-          <li>Rozważanie/Modlitwa dnia + nazwanie „węzła” (intencji).</li>
-          <li>Dwie ostatnie dziesiątki różańca (ta sama część co wyżej).</li>
-          <li>„Modlitwa do Maryi Rozwiązującej Węzły” (tekst stały — poniżej).</li>
-          <li>Znak krzyża.</li>
-        </ol>
-        <p style="opacity:.9;margin-top:10px">To jest klasyczny układ praktykowany w wielu parafiach i modlitewnikach (patrz: Stacja7 – dni nowenny). Tajemnice dobiera się wg dnia tygodnia (poniżej ściąga).</p>
-      </div>
-    </section>
-
-    <!-- Tajemnice wg dni tygodnia -->
-    <section class="card" id="tajemnice-dni">
-      <h2 class="section-title">Tajemnice różańca wg dni tygodnia</h2>
-      <div class="list-box">
-        <ul>
-          <li><strong>Poniedziałek:</strong> radosne</li>
-          <li><strong>Wtorek:</strong> bolesne</li>
-          <li><strong>Środa:</strong> chwalebne</li>
-          <li><strong>Czwartek:</strong> światła</li>
-          <li><strong>Piątek:</strong> bolesne</li>
-          <li><strong>Sobota:</strong> radosne</li>
-          <li><strong>Niedziela:</strong> chwalebne</li>
-        </ul>
-        <p style="opacity:.9">Taką praktykę podają przewodniki nowenny (np. Aleteia – „tekst i sposób odmawiania”).</p>
-      </div>
-    </section>
-
-    <!-- SZABLON DNIA: zostawiłem miejsce na Twoją ulubioną wersję rozważań -->
-    <section class="card" id="dzien-1">
-      <h2 class="section-title">Dzień 1</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca (tajemnice z dnia).
-
-<em>Rozważanie dnia – wpisz/ wklej używaną przez Ciebie wersję:</em>
-[tu treść rozważania – np. powierzenie węzła samotności i ufność w wstawiennictwo Maryi]
-
-Dwie ostatnie dziesiątki różańca (ta sama część).
-Na końcu: „Modlitwa do Maryi Rozwiązującej Węzły” (patrz niżej).
-      </div>
-      <details><summary>Pokaż szkic merytoryczny (pomoc)</summary>
-        <div class="poem" style="margin-top:8px">
-• Intencja/węzeł: nazwij go konkretnie (np. „samotność”, „relacja X”, „lęk Y”).
-• Akt zawierzenia: zaufanie Maryi („wierzę, że możesz rozwiązać ten węzeł…”).
-• Dziękczynienie: „Dziękuję Ci, Matko Ukochana…”.
-        </div>
-      </details>
-    </section>
-
-    <section class="card" id="dzien-2">
-      <h2 class="section-title">Dzień 2</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[czystość serca, pokora, ufność; ofiarowanie praktyk dnia jako dowód miłości]
-
-Dwie ostatnie dziesiątki różańca.
-Na końcu: Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-3">
-      <h2 class="section-title">Dzień 3</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[przebaczenie osobom związanym z „węzłem”; prośba o uzdrowienie uraz]
-
-Dwie ostatnie dziesiątki; potem Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-4">
-      <h2 class="section-title">Dzień 4</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[cierpliwość w próbach, wzrastanie przez trud, dziękczynienie w każdej chwili]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-5">
-      <h2 class="section-title">Dzień 5</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[łagodność i dobroć; prośba o mądrość i światło Ducha Świętego]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-6">
-      <h2 class="section-title">Dzień 6</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[wytrwałość, sakramenty (spowiedź, Komunia), przygotowanie serca na łaskę]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-7">
-      <h2 class="section-title">Dzień 7</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[wyrzeczenie się złego; wyznanie: „Jezus moim Zbawcą i Panem”; prośba o uwolnienie]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-8">
-      <h2 class="section-title">Dzień 8</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[nawiedzenie jak u Elżbiety; Duch Święty; cnoty: męstwo, radość, pokora, wiara]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <section class="card" id="dzien-9">
-      <h2 class="section-title">Dzień 9</h2>
-      <div class="prayer-box poem">
-Trzy pierwsze dziesiątki różańca.
-
-<em>Rozważanie dnia – wpisz/ wklej:</em>
-[dziękczynienie za rozwiązanie węzła; prośba o pokój, światło i opiekę]
-
-Dwie ostatnie dziesiątki; Modlitwa stała.
-      </div>
-    </section>
-
-    <!-- MODLITWA KOŃCOWA (stała) – jedna, do użycia każdego dnia -->
-    <section class="card" id="modlitwa-stala">
-      <h2 class="section-title">Modlitwa do Maryi Rozwiązującej Węzły (tekst stały)</h2>
-      <div class="prayer-box poem">
-Dziewico Maryjo, Matko Pięknej Miłości, Matko, która nigdy nie opuszczasz dziecka wołającego o pomoc,
-której ręce nieustannie pracują dla dobra Twoich umiłowanych dzieci, a serce przepełniają Boża miłość
-i nieskończone miłosierdzie — zwróć ku mnie swoje spojrzenie pełne współczucia.
-Ty wiesz, jak bardzo brak mi nadziei i jak cierpię, i wiesz, jak te węzły mnie paraliżują.
-
-Maryjo, Matko, której Bóg powierzył rozwiązywanie zawiłości serc Jego dzieci —
-w Twoje ręce składam wstęgę mojego życia. Nikt, nawet zły, nie może pozbawić Cię możliwości
-udzielenia mi miłosiernej pomocy. Nie ma takich węzłów, których Ty nie mogłabyś rozwiązać.
-
-Matko Wszechmocna, proszę — weź dziś ten węzeł (tu nazwij intencję)
-i dla chwały Boga, dzięki Twojej łasce oraz mocy wstawiennictwa u Twojego Syna, Jezusa, mojego Wyzwoliciela,
-rozwiąż go i rozwiąż na zawsze. Jesteś daną mi przez Boga Pocieszycielką i Najpewniejszą Ostoją.
-Przyjmij moje wołanie. Chroń mnie, prowadź i strzeż. Amen.
-
-Maryjo Rozwiązująca Węzły — módl się za mną.
-      </div>
-      <p class="note" style="margin-top:8px">Uwaga: istnieją drobne warianty przekładu tej modlitwy w polskich modlitewnikach; powyżej zostawiłem wersję powszechnie używaną.</p>
-    </section>
-
-  </main>
-
-  <!-- Pasek nawigacyjny (dół) -->
-  <nav class="nav-bar">
-    <a href="https://majstered.github.io/siedliszcze.github.io/" class="nav-btn">🏠 Strona główna</a>
-
-  </nav>
-
+  <!-- 🔧 Firebase config + JS -->
   <script>
-    // Tryb Dzień/Noc z pamięcią
-    (function(){
-      const key = 'theme-preference';
-      const btn = document.getElementById('modeBtn');
-      function applyTheme(v){ document.documentElement.classList.toggle('dark', v==='dark'); }
-      function current(){ return document.documentElement.classList.contains('dark') ? 'dark' : 'light'; }
-      const saved = localStorage.getItem(key);
-      if(saved){ applyTheme(saved); }
-      else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){ applyTheme('dark'); }
-      btn.addEventListener('click', ()=>{
-        const next = current()==='dark' ? 'light' : 'dark';
-        applyTheme(next); localStorage.setItem(key, next);
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRR3vSfgpEmbpZz_-VldMTnTHoXRfuGKg",
+      authDomain: "ksiega-ramzi.firebaseapp.com",
+      projectId: "ksiega-ramzi",
+      storageBucket: "ksiega-ramzi.firebasestorage.app",
+      messagingSenderId: "400735142662",
+      appId: "1:400735142662:web:0a14cf4c29554979839487",
+      measurementId: "G-JGSBCET9M3",
+      databaseURL: "https://ksiega-ramzi-default-rtdb.europe-west1.firebasedatabase.app"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function pokazKomentarze() {
+      const div = document.getElementById("lista-komentarzy");
+      db.ref("komentarze").on("value", (snapshot) => {
+        const data = snapshot.val() || {};
+        const arr = Object.values(data).reverse();
+        div.innerHTML = arr.map(k => `
+          <div class="komentarz">
+            <div class="naglowek">${k.autor}: ${k.data}</div>
+            <div>${k.tresc}</div>
+          </div>
+        `).join("");
       });
-    })();
+    }
+
+    function dodajKomentarz() {
+      const autor = document.getElementById("autor").value.trim();
+      const tresc = document.getElementById("tresc").value.trim();
+      if (!autor || !tresc) return alert("Wypełnij wszystkie pola");
+      const data = new Date().toLocaleString("pl-PL");
+      db.ref("komentarze").push({ autor, tresc, data });
+
+      document.getElementById("autor").value = "";
+      document.getElementById("tresc").value = "";
+    }
+
+    pokazKomentarze();
   </script>
+
 </body>
 </html>
