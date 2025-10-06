@@ -1,154 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Księga komentarzy • Różańcowa</title>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strefa B • dla niewierzących</title>
+  <meta name="description" content="Witaj w strefie B — bez wiary, o wolności, odpowiedzialności i wyborach. Z trybem dzień/noc."/>
   <style>
-    body {
-      font-family: sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-      max-width: 720px;
-      margin: auto;
+    :root{
+      --bg:#fbfaf7;
+      --card:#ffffff;
+      --ink:#1f2430;
+      --muted:#667085;
+      --blue:#0a4fa3;           /* maryjny niebieski z głównej */
+      --blue-ink:#ffffff;
+      --border:#e6e6ea;
+      --radius:20px;
+      --shadow:0 10px 32px rgba(0,0,0,.08);
+      --maxw:1000px;
+    }
+    .dark{
+      --bg:#0f1420;
+      --card:#141824;
+      --ink:#e7ecf6;
+      --muted:#aab3c6;
+      --blue:#0b3d7a;
+      --blue-ink:#ffffff;
+      --border:#263049;
+      --shadow:0 10px 40px rgba(0,0,0,.4);
     }
 
-    h1 {
-      text-align: center;
-      color: #1f4e79;
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.65; display:flex; flex-direction:column; min-height:100vh;
     }
+    a{color:inherit; text-decoration:none}
+    .wrap{width:min(100%,var(--maxw)); margin-inline:auto; padding:clamp(12px,2vw,24px)}
 
-    .sekcja-komentarzy {
-      border: 2px solid #4b6584;
-      border-radius: 10px;
-      background: #f0f6ff;
-      padding: 20px;
-      margin-top: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    /* ===== header ===== */
+    header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(180%) blur(6px)}
+    .bar{display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background:color-mix(in oklab, var(--card) 80%, transparent);
+      border:1px solid var(--border); border-radius:16px; padding:10px 14px; box-shadow:var(--shadow);
     }
+    .title{font-weight:800; letter-spacing:.2px}
+    .mode-btn{appearance:none; border:1px solid var(--border); background:var(--card); color:var(--ink);
+      padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600}
 
-    .sekcja-naglowek {
-      background: #4b6584;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      padding: 10px;
-      border-radius: 6px 6px 0 0;
-      margin: -20px -20px 20px -20px;
-    }
+    /* ===== hero blue band ===== */
+    .hero{margin-top:clamp(18px,3vh,38px); border-radius:var(--radius); background:var(--blue); color:var(--blue-ink);
+      box-shadow:var(--shadow); overflow:hidden; position:relative}
+    .hero::after{content:""; position:absolute; inset:auto -20% -35% -20%; height:60%;
+      background:linear-gradient(to top, rgba(255,255,255,.18), rgba(255,255,255,0) 60%); transform:skewY(-6deg)}
+    .hero-inner{padding:clamp(18px,3.5vw,42px); text-align:center}
+    .kicker{font-size:.95rem; letter-spacing:.08em; text-transform:uppercase; opacity:.9}
+    h1{margin:.1em 0 .2em; font-size:clamp(1.6rem, 2.4vw + .6rem, 2.4rem); line-height:1.15}
+    .lead{margin:0 auto; max-width:70ch; font-size:clamp(1rem, .8vw + .8rem, 1.25rem); opacity:.98}
 
-    .komentarz {
-      background: #eaf0fb;
-      margin-bottom: 10px;
-      border-left: 5px solid #4b6584;
-      padding: 10px;
-      border-radius: 4px;
-    }
+    /* ===== article ===== */
+    .card{margin-top:clamp(22px,4vh,46px); background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card-inner{padding:clamp(16px,3.2vw,32px)}
+    .card-inner p{margin:0 0 1.05em}
+    .soft{color:var(--muted)}
+    blockquote{margin:1.2em 0; padding:1em 1.2em; border-left:4px solid var(--blue); background:color-mix(in oklab, var(--card) 88%, var(--blue) 12%); border-radius:12px}
+    blockquote p{margin:.2em 0}
 
-    .naglowek {
-      font-weight: bold;
-      background: #4b6584;
-      color: white;
-      padding: 5px;
-      border-radius: 3px;
-    }
+    /* ===== nav buttons ===== */
+    .nav{display:flex; flex-wrap:wrap; gap:12px; margin-top:clamp(16px,2.5vh,28px)}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.8rem 1.1rem;
+      border-radius:14px; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); font-weight:700}
+    .btn.blue{background:var(--blue); color:var(--blue-ink); border-color:transparent}
+    .btn:hover{transform:translateY(-1px)}
+    .ghost{opacity:.9}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 15px;
-    }
-
-    button {
-      margin-top: 15px;
-      background: #339cff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    button:hover {
-      background-color: #1f78d1;
-    }
+    footer{color:var(--muted); font-size:.9rem; margin:24px 0 8px; text-align:center}
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <header aria-label="Nagłówek">
+      <div class="bar">
+        <div class="title">Strefa B — dla niewierzących</div>
+        <button class="mode-btn" id="modeBtn" type="button" aria-pressed="false" title="Przełącz: dzień / noc">☀️ Dzień / 🌙 Noc</button>
+      </div>
+    </header>
 
-  <h1>🌹 Księga komentarzy</h1>
+    <!-- Niebieski pas tytułowy -->
+    <section class="hero" aria-label="Wprowadzenie">
+      <div class="hero-inner">
+        <div class="kicker">B</div>
+        <h1>Witaj w strefie B — dla niewierzących</h1>
+        <p class="lead">Bez wiary — o wolności, odpowiedzialności i wyborach. Spokojnie, bez presji. Możesz po prostu przeczytać i pójść dalej.</p>
+      </div>
+    </section>
 
-  <!-- 🔽 SEKCJA Z KOMENTARZAMI -->
-  <div class="sekcja-komentarzy">
-    <div class="sekcja-naglowek">🗨️ Wasze komentarze:</div>
-    <div id="lista-komentarzy"></div>
+    <!-- Artykuł -->
+    <article class="card" aria-label="Artykuł">
+      <div class="card-inner">
+        <p>Jeżeli nie wierzysz w nic... jesteś wolny. Nie należysz do nikogo, nie masz nad sobą żadnej siły wyższej. Jesteś panem swojego życia. Możesz robić, co chcesz. Jesteś szczęśliwym przypadkiem ewolucji, a już sam fakt, że w ogóle się urodziłeś — to niezwykłe szczęście. Twoi rodzice mogli uznać, że jesteś problemem, a jednak pozwolili ci przyjść na świat. To już coś.</p>
 
-    <label>Autor:
-      <input type="text" id="autor" placeholder="Twoje imię">
-    </label>
-    <label>Treść:
-      <textarea id="tresc" rows="3" placeholder="Napisz komentarz..."></textarea>
-    </label>
-    <button onclick="dodajKomentarz()">Dodaj komentarz</button>
+        <p>Żyjąc bez wiary, podlegasz tylko prawu cywilnemu. Wystarczy, że nie łamiesz zasad państwa i społeczeństwa. Dopóki nie krzywdzisz innych — masz święty spokój. Możesz spać spokojnie, nie spowiadać się nikomu, nie klękać, nie tłumaczyć się ze swoich myśli. Świat jest taki, jakim go widzisz — i tylko tyle.</p>
+
+        <p>Ale wolność ma granice. Kończy się tam, gdzie zaczyna prawo. Kończy się też tam, gdzie kończy się życie. Bo jeśli śmierć zamyka wszystko — to kończy się nie tylko twoje ciało, ale i każda dobra rzecz, którą zrobiłeś. Każdy uśmiech, słowo, gest. Wszystko znika.</p>
+
+        <blockquote>
+          <p class="soft">Bez wiary człowiek może czuć się niezależny i samowystarczalny. Ale ta wolność zawsze kończy się na granicy konsekwencji. Czy na pewno tego pragniesz — być tylko przypadkiem, iskrą, która zgasła?</p>
+        </blockquote>
+
+        <p>Czasem w człowieku pojawia się cichy smutek. Nie dlatego, że coś jest źle, ale dlatego, że <strong>czegoś brakuje</strong>. Jakby w środku była przestrzeń, której nie da się zapełnić ani rzeczami, ani sukcesem, ani świętym spokojem.</p>
+
+        <p>I wtedy zaczynasz pytać: — A może jednak istnieje coś więcej? — Może ktoś naprawdę mnie widzi i rozumie?</p>
+
+        <p>Jeśli kiedykolwiek to poczujesz, nie bój się zajrzeć dalej. Zajrzyj do zakładki <a href="A.html" class="ghost"><strong>A</strong></a> lub <a href="C.html" class="ghost"><strong>C</strong></a>. Być może właśnie tam znajdziesz odpowiedzi, których wcześniej nie miałeś okazji poznać.</p>
+
+        <div class="nav" aria-label="Nawigacja">
+          <a href="index.html" class="btn">⬅️ Strona główna</a>
+          <a href="A.html" class="btn blue">Przejdź do A</a>
+          <a href="C.html" class="btn">Zobacz C</a>
+        </div>
+      </div>
+    </article>
+
+    <footer>To tylko przestrzeń do myślenia. Nic na siłę.</footer>
   </div>
 
-  <!-- 🔧 Firebase config + JS -->
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDRR3vSfgpEmbpZz_-VldMTnTHoXRfuGKg",
-      authDomain: "ksiega-ramzi.firebaseapp.com",
-      projectId: "ksiega-ramzi",
-      storageBucket: "ksiega-ramzi.firebasestorage.app",
-      messagingSenderId: "400735142662",
-      appId: "1:400735142662:web:0a14cf4c29554979839487",
-      measurementId: "G-JGSBCET9M3",
-      databaseURL: "https://ksiega-ramzi-default-rtdb.europe-west1.firebasedatabase.app"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function pokazKomentarze() {
-      const div = document.getElementById("lista-komentarzy");
-      db.ref("komentarze").on("value", (snapshot) => {
-        const data = snapshot.val() || {};
-        const arr = Object.values(data).reverse();
-        div.innerHTML = arr.map(k => `
-          <div class="komentarz">
-            <div class="naglowek">${k.autor}: ${k.data}</div>
-            <div>${k.tresc}</div>
-          </div>
-        `).join("");
-      });
-    }
-
-    function dodajKomentarz() {
-      const autor = document.getElementById("autor").value.trim();
-      const tresc = document.getElementById("tresc").value.trim();
-      if (!autor || !tresc) return alert("Wypełnij wszystkie pola");
-      const data = new Date().toLocaleString("pl-PL");
-      db.ref("komentarze").push({ autor, tresc, data });
-
-      document.getElementById("autor").value = "";
-      document.getElementById("tresc").value = "";
-    }
-
-    pokazKomentarze();
+    // Dzień/Noc
+    const modeBtn = document.getElementById('modeBtn');
+    const LS_KEY = 'theme-pref';
+    const apply = (m)=>{ document.body.classList.toggle('dark', m==='dark'); modeBtn.setAttribute('aria-pressed', m==='dark'); }
+    const saved = localStorage.getItem(LS_KEY); if(saved){ apply(saved); }
+    modeBtn.addEventListener('click', ()=>{ const now = document.body.classList.contains('dark') ? 'light' : 'dark'; localStorage.setItem(LS_KEY, now); apply(now); });
   </script>
-
 </body>
 </html>
