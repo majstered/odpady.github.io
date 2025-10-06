@@ -11,7 +11,7 @@
       --card:#ffffff;
       --ink:#1f2430;
       --muted:#667085;
-      --blue:#0a4fa3;           /* maryjny niebieski z głównej */
+      --blue:#0a4fa3;
       --blue-ink:#ffffff;
       --border:#e6e6ea;
       --radius:20px;
@@ -32,50 +32,115 @@
     *,*::before,*::after{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:var(--bg); color:var(--ink);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,"Apple Color Emoji","Segoe UI Emoji";
-      line-height:1.65; display:flex; flex-direction:column; min-height:100vh;
+      margin:0; 
+      background:var(--bg); 
+      color:var(--ink);
+      font-family:system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+      font-size:clamp(17px, 1.1vw + 0.5rem, 19px);
+      line-height:1.7;
+      display:flex; 
+      flex-direction:column; 
+      min-height:100vh;
     }
     a{color:inherit; text-decoration:none}
     .wrap{width:min(100%,var(--maxw)); margin-inline:auto; padding:clamp(12px,2vw,24px)}
 
-    /* ===== header ===== */
     header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(180%) blur(6px)}
-    .bar{display:flex; align-items:center; justify-content:space-between; gap:12px;
+    .bar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
       background:color-mix(in oklab, var(--card) 80%, transparent);
-      border:1px solid var(--border); border-radius:16px; padding:10px 14px; box-shadow:var(--shadow);
+      border:1px solid var(--border);
+      border-radius:16px; 
+      padding:10px 14px; 
+      box-shadow:var(--shadow);
     }
     .title{font-weight:800; letter-spacing:.2px}
-    .mode-btn{appearance:none; border:1px solid var(--border); background:var(--card); color:var(--ink);
-      padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600}
+    .mode-btn{
+      appearance:none; 
+      border:1px solid var(--border); 
+      background:var(--card); 
+      color:var(--ink);
+      padding:8px 12px; 
+      border-radius:12px; 
+      cursor:pointer; 
+      font-weight:600;
+    }
 
-    /* ===== hero blue band ===== */
-    .hero{margin-top:clamp(18px,3vh,38px); border-radius:var(--radius); background:var(--blue); color:var(--blue-ink);
-      box-shadow:var(--shadow); overflow:hidden; position:relative}
-    .hero::after{content:""; position:absolute; inset:auto -20% -35% -20%; height:60%;
-      background:linear-gradient(to top, rgba(255,255,255,.18), rgba(255,255,255,0) 60%); transform:skewY(-6deg)}
+    .hero{
+      margin-top:clamp(18px,3vh,38px); 
+      border-radius:var(--radius); 
+      background:var(--blue); 
+      color:var(--blue-ink);
+      box-shadow:var(--shadow); 
+      overflow:hidden; 
+      position:relative;
+    }
+    .hero::after{
+      content:""; 
+      position:absolute; 
+      inset:auto -20% -35% -20%; 
+      height:60%;
+      background:linear-gradient(to top, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+      transform:skewY(-6deg);
+    }
     .hero-inner{padding:clamp(18px,3.5vw,42px); text-align:center}
     .kicker{font-size:.95rem; letter-spacing:.08em; text-transform:uppercase; opacity:.9}
-    h1{margin:.1em 0 .2em; font-size:clamp(1.6rem, 2.4vw + .6rem, 2.4rem); line-height:1.15}
-    .lead{margin:0 auto; max-width:70ch; font-size:clamp(1rem, .8vw + .8rem, 1.25rem); opacity:.98}
+    h1{margin:.1em 0 .2em; font-size:clamp(1.8rem, 2.4vw + .6rem, 2.5rem); line-height:1.2}
+    .lead{margin:0 auto; max-width:70ch; font-size:clamp(1.1rem, .9vw + .8rem, 1.3rem); opacity:.98}
 
-    /* ===== article ===== */
-    .card{margin-top:clamp(22px,4vh,46px); background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
-    .card-inner{padding:clamp(16px,3.2vw,32px)}
-    .card-inner p{margin:0 0 1.05em}
+    .card{
+      margin-top:clamp(22px,4vh,46px); 
+      background:var(--card); 
+      border:1px solid var(--border); 
+      border-radius:var(--radius); 
+      box-shadow:var(--shadow);
+    }
+    .card-inner{
+      padding:clamp(18px,3vw,36px);
+    }
+    .card-inner p{
+      margin:0 0 1.3em;
+      max-width:75ch;
+    }
     .soft{color:var(--muted)}
-    blockquote{margin:1.2em 0; padding:1em 1.2em; border-left:4px solid var(--blue); background:color-mix(in oklab, var(--card) 88%, var(--blue) 12%); border-radius:12px}
-    blockquote p{margin:.2em 0}
+    blockquote{
+      margin:1.5em 0; 
+      padding:1em 1.2em; 
+      border-left:4px solid var(--blue); 
+      background:color-mix(in oklab, var(--card) 88%, var(--blue) 12%); 
+      border-radius:12px;
+    }
+    blockquote p{margin:.2em 0; font-size:1rem;}
 
-    /* ===== nav buttons ===== */
-    .nav{display:flex; flex-wrap:wrap; gap:12px; margin-top:clamp(16px,2.5vh,28px)}
-    .btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.8rem 1.1rem;
-      border-radius:14px; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); font-weight:700}
+    .nav{
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:12px; 
+      margin-top:clamp(20px,3vh,32px)
+    }
+    .btn{
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center; 
+      gap:.5rem; 
+      padding:.9rem 1.3rem;
+      border-radius:14px; 
+      border:1px solid var(--border); 
+      background:var(--card); 
+      box-shadow:var(--shadow); 
+      font-weight:700;
+      font-size:1rem;
+    }
     .btn.blue{background:var(--blue); color:var(--blue-ink); border-color:transparent}
     .btn:hover{transform:translateY(-1px)}
     .ghost{opacity:.9}
 
-    footer{color:var(--muted); font-size:.9rem; margin:24px 0 8px; text-align:center}
+    footer{
+      color:var(--muted); 
+      font-size:1rem; 
+      margin:28px 0 10px; 
+      text-align:center;
+    }
   </style>
 </head>
 <body>
@@ -87,15 +152,13 @@
       </div>
     </header>
 
-    <!-- Niebieski pas tytułowy -->
     <section class="hero" aria-label="Wprowadzenie">
       <div class="hero-inner">
-        <h1>Witaj w strefie  B </h1>
+        <h1>Witaj w strefie B</h1>
         <p class="lead">Bez wiary — o wolności, odpowiedzialności i wyborach. Spokojnie, bez presji. Możesz po prostu przeczytać i pójść dalej.</p>
       </div>
     </section>
 
-    <!-- Artykuł -->
     <article class="card" aria-label="Artykuł">
       <div class="card-inner">
         <p>Jeżeli nie wierzysz w nic... jesteś wolny. Nie należysz do nikogo, nie masz nad sobą żadnej siły wyższej. Jesteś panem swojego życia. Możesz robić, co chcesz. Jesteś szczęśliwym przypadkiem ewolucji, a już sam fakt, że w ogóle się urodziłeś — to niezwykłe szczęście. Twoi rodzice mogli uznać, że jesteś problemem, a jednak pozwolili ci przyjść na świat. To już coś.</p>
@@ -112,7 +175,7 @@
 
         <p>I wtedy zaczynasz pytać: — A może jednak istnieje coś więcej? — Może ktoś naprawdę mnie widzi i rozumie?</p>
 
-        <p>Jeśli kiedykolwiek to poczujesz, nie bój się zajrzeć dalej. Zajrzyj do zakładki <a href="A.html" class="ghost"><strong>A</strong></a> lub <a href="C.html" class="ghost"><strong>C</strong></a>. Być może właśnie tam znajdziesz odpowiedzi, których wcześniej nie miałeś okazji poznać.</p>
+        <p>Jeśli kiedykolwiek to poczujesz, nie bój się zajrzeć dalej. Zajrzyj do zakładki <a href="A.html" class="ghost"><strong>A</strong></a> lub <a href="https://majstered.github.io/twojopis.github.io/" class="ghost"><strong>C</strong></a>. Być może właśnie tam znajdziesz odpowiedzi, których wcześniej nie miałeś okazji poznać.</p>
 
         <div class="nav" aria-label="Nawigacja">
           <a href="https://majstered.github.io/siedliszcze.github.io/" class="btn">⬅️ Strona główna</a>
@@ -121,12 +184,13 @@
         </div>
       </div>
     </article>
+
     <footer style="
       background:color-mix(in oklab, var(--card) 70%, #f5e8c8);
       color:var(--ink);
       text-align:center;
       padding:14px 8px;
-      font-size:0.95rem;
+      font-size:1rem;
       font-family:system-ui,Segoe UI,Roboto;
       border-top:1px solid var(--border);
       opacity:.9;
@@ -136,12 +200,19 @@
   </div>
 
   <script>
-    // Dzień/Noc
     const modeBtn = document.getElementById('modeBtn');
     const LS_KEY = 'theme-pref';
-    const apply = (m)=>{ document.body.classList.toggle('dark', m==='dark'); modeBtn.setAttribute('aria-pressed', m==='dark'); }
-    const saved = localStorage.getItem(LS_KEY); if(saved){ apply(saved); }
-    modeBtn.addEventListener('click', ()=>{ const now = document.body.classList.contains('dark') ? 'light' : 'dark'; localStorage.setItem(LS_KEY, now); apply(now); });
+    const apply = (m)=>{ 
+      document.body.classList.toggle('dark', m==='dark'); 
+      modeBtn.setAttribute('aria-pressed', m==='dark'); 
+    }
+    const saved = localStorage.getItem(LS_KEY); 
+    if(saved){ apply(saved); }
+    modeBtn.addEventListener('click', ()=>{ 
+      const now = document.body.classList.contains('dark') ? 'light' : 'dark'; 
+      localStorage.setItem(LS_KEY, now); 
+      apply(now); 
+    });
   </script>
 </body>
 </html>
